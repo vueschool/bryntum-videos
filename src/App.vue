@@ -1,6 +1,9 @@
 <script setup>
 import { BryntumScheduler } from "@bryntum/scheduler-vue-3";
 import { reactive } from "vue";
+import { ref } from "vue";
+
+const accessGranted = ref(false);
 
 const config = reactive({
   startDate: new Date(2024, 0, 1, 6),
@@ -12,6 +15,27 @@ const config = reactive({
     { text: "Name", field: "name", width: 130 },
     { text: "Age", field: "age", width: 50 },
   ],
+  features: {
+    eventMenu: {
+      processItems({ items }) {
+        if (!accessGranted.value) {
+          items.editEvent = false;
+          items.deleteEvent = false;
+        }
+      },
+    },
+    timeAxisHeaderMenu: {
+      items: {
+        dateRange: {
+          text: "Start/End",
+          weight: 190,
+          style: {
+            background: "blue",
+          },
+        },
+      },
+    },
+  },
   events: [
     {
       id: 1,
