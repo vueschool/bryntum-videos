@@ -99,8 +99,18 @@ const config = reactive({
     { id: 10, name: "Ellen", age: 32, meta: { job: "Developer" } },
   ],
 });
+
+watch(
+  () => config.eventEditFeature.disabled,
+  () => {
+    scheduler.value.instance.value.features.eventEdit.disabled =
+      config.eventEditFeature.disabled;
+  }
+);
+
+const scheduler = ref();
 </script>
 
 <template>
-  <BryntumScheduler v-bind="config" />
+  <BryntumScheduler ref="scheduler" v-bind="config" />
 </template>
